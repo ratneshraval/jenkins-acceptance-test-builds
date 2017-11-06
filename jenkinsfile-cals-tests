@@ -30,7 +30,7 @@ def notifyBuild(String buildStatus, Exception e) {
       body: details,
       attachLog: true,
       recipientProviders: [[$class: 'DevelopersRecipientProvider']],
-      to: "Alex.Kuznetsov@osi.ca.gov"
+      to: "srikanth.chowdhary@osi.ca.gov"
     )
 }
 
