@@ -54,7 +54,7 @@ node ('preint') {
    stage('Build Docker'){
         sh 'docker-compose build'
 		withDockerRegistry([credentialsId: 'a1315b14-e449-464b-a80a-28d8f55143a9']) {
-			sh "docker tag cals_acceptance_test cwds/cals_acceptance_test:${APP_VERSION}"
+			sh "docker tag calsacceptancetest_cals_acceptance_test cwds/cals_acceptance_test:${APP_VERSION}"
 			sh "docker push cwds/cals_acceptance_test:${APP_VERSION}"
 		}
 	 }
