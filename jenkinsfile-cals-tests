@@ -55,7 +55,7 @@ node ('preint') {
         sh 'cd docker/dev/app/cals-acceptance-tests/'
         sh 'docker-compose build'
 		withDockerRegistry([credentialsId: 'a1315b14-e449-464b-a80a-28d8f55143a9']) {
-			 sh "docker tag acceptancetestcals_acceptance_test cwds/cals_acceptance_test:${APP_VERSION}"
+			 sh "docker tag cals_acceptance_test cwds/cals_acceptance_test:${APP_VERSION}"
 			 sh "docker push cwds/cals_acceptance_test:${APP_VERSION}"
 		}
 	 }
@@ -63,14 +63,14 @@ node ('preint') {
       withEnv(["APP_URL=${APP_URL}",
                "FEATURE_SET=${FEATURE_SET}",
                "CAPYBARA_DRIVER=webkit"]) {
-                sh 'docker-compose run calsacceptancetest_cals'
+                sh 'docker-compose run cals_acceptance_test'
       }
 	  }
    stage('Run tests selenium'){
       withEnv(["APP_URL=${APP_URL}",
                "FEATURE_SET=${FEATURE_SET}",
                "CAPYBARA_DRIVER=selenium"]) {
-                sh 'docker-compose run calsacceptancetest_cals'
+                sh 'docker-compose run cals_acceptance_test'
       }
 	  }	
             stage ('Reports') {
