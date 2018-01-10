@@ -70,7 +70,7 @@ node ('preint') {
       withEnv(["APP_URL=${APP_URL}",
                "FEATURE_SET=${FEATURE_SET}",
                "CAPYBARA_DRIVER=selenium"]) {
-                sh 'docker-compose run cwds/cals_acceptance_test'
+                sh 'docker-compose run calsacceptancetest_cals'
       }
 	  }	
             stage ('Reports') {
