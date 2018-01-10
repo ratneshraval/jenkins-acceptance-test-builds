@@ -63,14 +63,14 @@ node ('preint') {
       withEnv(["APP_URL=${APP_URL}",
                "FEATURE_SET=${FEATURE_SET}",
                "CAPYBARA_DRIVER=webkit"]) {
-                sh 'docker-compose run cals_acceptance_test'
+                sh 'docker-compose run cals-acceptance-test'
       }
 	  }
    stage('Run tests selenium'){
       withEnv(["APP_URL=${APP_URL}",
                "FEATURE_SET=${FEATURE_SET}",
                "CAPYBARA_DRIVER=selenium"]) {
-                sh 'docker-compose run cals_acceptance_test'
+                sh 'docker-compose run cals-acceptance-test'
       }
 	  }	
             stage ('Reports') {
