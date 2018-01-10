@@ -49,7 +49,7 @@ node ('preint') {
 
    stage('Preparation') {
 		  cleanWs()
-		  git branch: 'master', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'https://github.com/ca-cwds/cals-acceptance-testing.git'
+		  git branch: 'master', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'https://github.com/ca-cwds/CALS.git'
    }
    stage('Build Docker'){
         sh 'docker-compose build'
