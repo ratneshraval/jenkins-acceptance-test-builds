@@ -56,7 +56,7 @@ node ('preint') {
         sh 'docker-compose build'
 		withDockerRegistry([credentialsId: 'a1315b14-e449-464b-a80a-28d8f55143a9']) {
 			 sh "docker tag calsacceptancetest_cals cwds/cals_acceptance_test:${APP_VERSION}"
-			// sh "docker push cwds/cals_acceptance_test:${APP_VERSION}"
+			 sh "docker push cwds/cals_acceptance_test:${APP_VERSION}"
 		}
 	 }
   
@@ -64,7 +64,7 @@ node ('preint') {
       withEnv(["CAPYBARA_APP_HOST=${CAPYBARA_APP_HOST}",
                "USERNAME=${USERNAME}"
                ]) {
-                sh 'docker-compose up cals_acceptance_test'
+                sh 'docker-compose up'
       }
 	  }	
             stage ('Reports') {
