@@ -63,10 +63,10 @@ node ('preint') {
    stage('Run tests selenium'){
       withEnv(["CAPYBARA_APP_HOST=${CAPYBARA_APP_HOST}",
                "USERNAME=${USERNAME}"
-               ]) {
+               ]) 
                 sh 'docker-compose up'
       }
-	  }	
+	
             stage ('Reports') {
                 step([$class: 'JUnitResultArchiver', testResults: '**/reports/*.xml'])
             }
