@@ -38,7 +38,7 @@ node ('preint') {
    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')),
               [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
 			  parameters([
-			  string(defaultValue: 'smoke', description: '', name: 'FEATURE_SET'),
+			  string(defaultValue: '{ "user": "RACFID", "staffId": "0X5", "roles": [ "Supervisor" ], "county_code": "56", "county_name": "Ventura", "privileges": [ "Countywide Read", "Sensitive Persons" ] }', description: '', name: 'username'),
 			  string(defaultValue: 'manual-run', description: 'Docker hub container version', name: 'APP_VERSION'),
 			  string(defaultValue: 'https://web.preint.cwds.io', description: '', name: 'APP_URL')]),pipelineTriggers([])])
 
@@ -61,8 +61,8 @@ node ('preint') {
 	 }
   
    stage('Run tests selenium'){
-      withEnv(["CAPYBARA_APP_HOST=${CAPYBARA_APP_HOST}",
-               "USERNAME=${USERNAME}"
+      withEnv(["CAPYBARA_APP_HOST=${APP_URL}",
+               "USERNAME=${username}"
                ]) {
                 sh 'docker-compose up'
       }
