@@ -57,7 +57,8 @@ node ('preint') {
                "USERNAME=${username}"
                ]) {
 	        sh 'cd docker/dev/app/cals-acceptance-tests/'
-                sh 'docker-compose up'
+		sh 'pwd'
+                sh 'docker-compose -f docker/dev/app/cals-acceptance-tests/docker-compose.yml up'
       }
 	}
             stage ('Reports') {
