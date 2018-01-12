@@ -64,6 +64,7 @@ node ('preint') {
       withEnv(["CAPYBARA_APP_HOST=${APP_URL}",
                "USERNAME=${username}"
                ]) {
+	        sh 'cd docker/dev/app/cals-acceptance-tests/'
                 sh 'docker-compose up'
       }
 	}
