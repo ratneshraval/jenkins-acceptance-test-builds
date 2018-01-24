@@ -59,7 +59,7 @@ node ('preint') {
             sh "docker tag acceptancetestintake_acceptance_test cwds/acceptance_testing:${APP_VERSION}"
             sh "docker push cwds/acceptance_testing:${APP_VERSION}"
         }
-  
+  }
    stage('Run tests selenium'){
       withEnv(["CAPYBARA_APP_HOST=${APP_URL}",
                "USERNAME=${USERNAME}"
