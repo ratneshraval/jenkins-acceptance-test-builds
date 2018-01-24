@@ -56,7 +56,7 @@ node ('preint') {
        
         withDockerRegistry([credentialsId: 'a1315b14-e449-464b-a80a-28d8f55143a9']) {
             sh 'cd docker/dev/app/cals-acceptance-tests/;docker-compose build'
-            sh "docker tag acceptancetestintake_acceptance_test cwds/acceptance_testing:${APP_VERSION}"
+            sh "docker tag acceptancetestcals_acceptance_test cwds/acceptance_testing:${APP_VERSION}"
             sh "docker push cwds/acceptance_testing:${APP_VERSION}"
         }
   }
