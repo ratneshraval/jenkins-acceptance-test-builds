@@ -71,7 +71,8 @@ node ('preint') {
       }
 	}
             stage ('Reports') {
-                step([$class: 'JUnitResultArchiver', testResults: '**/reports/*.xml'])
+                // step([$class: 'JUnitResultArchiver', testResults: '**/reports/*.xml'])
+		echo 'reports stage - nothing to do'  
             }
 
 	  } catch (Exception e)    {
