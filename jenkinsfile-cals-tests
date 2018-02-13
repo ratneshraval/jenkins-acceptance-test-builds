@@ -71,7 +71,7 @@ node ('preint') {
       }
 	}
             stage ('Reports') {
-                step([$class: 'JUnitResultArchiver', testResults: '**/reports/*.xml'])
+                step([$class: 'JUnitResultArchiver', testResults: '**/reports/coverage/rspec/*.xml'])
             }
 
 	  } catch (Exception e)    {
