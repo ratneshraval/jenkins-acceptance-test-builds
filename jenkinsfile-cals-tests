@@ -71,7 +71,7 @@ node ('preint') {
       }
 	}
             stage ('Reports') {
-                step([$class: 'JUnitResultArchiver', testResults: '**/reports/coverage/rspec/*.xml'])
+		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'docker/dev/app/cals-acceptance-tests/reports/coverage/rspec', reportFiles: 'index.html', reportName: 'Cals acceptance tests', reportTitles: ''])
             }
 
 	  } catch (Exception e)    {
@@ -81,8 +81,5 @@ node ('preint') {
 	}
 	finally {
 	     fingerprint 'reports/*'
-		 
-	     junit allowEmptyResults: true, testResults: 'reports/TEST-*.xml'
-		 
 	}
 }
