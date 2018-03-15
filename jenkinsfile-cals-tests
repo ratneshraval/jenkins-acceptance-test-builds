@@ -76,7 +76,7 @@ node ('preint') {
 	    stage ('Integration Env Deploy') {
                 build job: '/Integration Environment/deploy-CALS/', 
                     parameters: [
-                    string(name: 'CALS_APP_VERSION', value: '${APP_VERSION}'), 
+                    string(name: 'CALS_APP_VERSION', value: ${APP_VERSION}), 
                     string(name: 'inventory', value: 'inventories/integration/hosts.yml')
                     ], 
                     wait: false
