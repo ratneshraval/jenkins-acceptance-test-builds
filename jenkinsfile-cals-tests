@@ -67,7 +67,7 @@ node ('preint') {
 	        sh 'cd docker/dev/app/cals-acceptance-tests/'
 		sh 'pwd'
 		sh 'env'
-                sh 'docker-compose -f docker/dev/app/cals-acceptance-tests/docker-compose.yml up'
+		sh 'docker-compose -f docker/dev/app/cals-acceptance-tests/docker-compose.yml up'
       }
 	}
             stage ('Reports') {
