@@ -73,6 +73,14 @@ node ('preint') {
             stage ('Reports') {
 		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'docker/dev/app/cals-acceptance-tests/reports/coverage/rspec', reportFiles: 'index.html', reportName: 'Cals acceptance tests', reportTitles: ''])
             }
+	    stage ('Integration Env Deploy') {
+                build job: '/Integration Environment/deploy-CALS/', 
+                    parameters: [
+                    string(name: 'CALS_APP_VERSION', value: '${APP_VERSION}'), 
+                    string(name: 'inventory', value: 'inventories/integration/hosts.yml')
+                    ], 
+                    wait: false
+            }
 
 	  } catch (Exception e)    {
 	   errorcode = e
