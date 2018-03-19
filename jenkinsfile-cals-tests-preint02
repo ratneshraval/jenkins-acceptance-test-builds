@@ -73,6 +73,21 @@ node ('preint02') {
             stage ('Reports') {
 		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'docker/dev/app/cals-acceptance-tests/reports/coverage/rspec', reportFiles: 'index.html', reportName: 'Cals acceptance tests', reportTitles: ''])
             }
-	    
-}
+	    stage ('Integration02 Env Deploy') {
+                build job: '/Integration02 Environment/deploy-CALS/', 
+                    parameters: [
+                    string(name: 'CALS_APP_VERSION', value: "${APP_VERSION}"), 
+                    string(name: 'inventory', value: 'inventories/integration02/hosts.yml')
+                    ], 
+                    wait: false
+            }
+
+	  } catch (Exception e)    {
+	   errorcode = e
+	   currentBuild.result = "FAIL"
+	   notifyBuild(currentBuild.result,errorcode)
+	}
+	finally {
+	     fingerprint 'reports/*'
+	}
 }
