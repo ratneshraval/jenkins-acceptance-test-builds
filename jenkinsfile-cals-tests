@@ -49,15 +49,15 @@ node ('preint') {
 
    stage('Preparation') {
 		  cleanWs()
-		  git branch: 'development', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'https://github.com/ca-cwds/CALS.git'
+		  // git branch: 'development', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'https://github.com/ca-cwds/CALS.git'
    }
    
    stage('Build Docker'){
        
-        withDockerRegistry([credentialsId: 'a1315b14-e449-464b-a80a-28d8f55143a9']) {
-	    sh "docker pull cwds/cals_acceptance_test:${APP_VERSION}"
+        // withDockerRegistry([credentialsId: 'a1315b14-e449-464b-a80a-28d8f55143a9']) {
+	//    sh "docker pull cwds/cals_acceptance_test:${APP_VERSION}"
             // sh 'cd docker/dev/app/cals-acceptance-tests/;docker-compose build --no-cache'
-        }
+        // }
   }
    stage('Run tests selenium'){
       withEnv(["CAPYBARA_APP_HOST=${APP_URL}",
