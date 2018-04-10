@@ -25,7 +25,7 @@ def notifyBuild(String buildStatus, Exception e) {
   // Send notifications
   slackSend(
       baseUrl: 'https://hooks.slack.com/services/',
-      tokenCredentialId: SLACK_CREDENTIALS_ID,
+      // tokenCredentialId: SLACK_CREDENTIALS_ID,
       channel: '#tech-cals-updates',
       color: colorCode,
       message: summary
