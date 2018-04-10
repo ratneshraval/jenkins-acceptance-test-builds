@@ -23,7 +23,13 @@ def notifyBuild(String buildStatus, Exception e) {
   }
 
   // Send notifications
-
+  slackSend(
+      baseUrl: 'https://hooks.slack.com/services/',
+      tokenCredentialId: SLACK_CREDENTIALS_ID,
+      channel: '#tech-cals-updates',
+      color: colorCode,
+      message: summary
+  )
   // slackSend channel: "#cals-api", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: colorCode, message: summary
   // emailext(
   //    subject: subject,
@@ -32,6 +38,8 @@ def notifyBuild(String buildStatus, Exception e) {
   //    recipientProviders: [[$class: 'DevelopersRecipientProvider']],
   //    to: "srikanth.chowdhary@osi.ca.gov"
   //  )
+
+
 }
 
 node ('preint') {
@@ -47,18 +55,11 @@ node ('preint') {
 
  try {
 
-   stage('Preparation') {
+   stage('Github checkout') {
 		  cleanWs()
 		  git branch: 'development', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'https://github.com/ca-cwds/CALS.git'
    }
-   
-   stage('Build Docker'){
-       
-        // withDockerRegistry([credentialsId: 'a1315b14-e449-464b-a80a-28d8f55143a9']) {
-	//    sh "docker pull cwds/cals_acceptance_test:${APP_VERSION}"
-            // sh 'cd docker/dev/app/cals-acceptance-tests/;docker-compose build --no-cache'
-        // }
-  }
+
    stage('Run tests selenium'){
       withEnv(["CAPYBARA_APP_HOST=${APP_URL}",
                "USERNAME=${USERNAME}"
@@ -69,24 +70,23 @@ node ('preint') {
 		sh 'docker-compose -f docker/dev/app/cals-acceptance-tests/docker-compose.yml up --exit-code-from cals_acceptance_test'
       }
 	}
-            stage ('Reports') {
+    stage ('Reports') {
 		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'docker/dev/app/cals-acceptance-tests/reports/coverage/rspec', reportFiles: 'index.html', reportName: 'Cals acceptance tests', reportTitles: ''])
-            }
-	    stage ('Integration Env Deploy') {
-                build job: '/Integration Environment/deploy-CALS/', 
-                    parameters: [
-                    string(name: 'CALS_APP_VERSION', value: "${APP_VERSION}"), 
-                    string(name: 'inventory', value: 'inventories/integration/hosts.yml')
-                    ], 
-                    wait: false
-            }
+    }
+    stage ('Integration Env Deploy') {
+        build job: '/Integration Environment/deploy-CALS/',
+            parameters: [
+            string(name: 'CALS_APP_VERSION', value: "${APP_VERSION}"),
+            string(name: 'inventory', value: 'inventories/integration/hosts.yml')
+            ],
+            wait: false
+    }
 
-	  } catch (Exception e)    {
-	   errorcode = e
-	   currentBuild.result = "FAIL"
-	   notifyBuild(currentBuild.result,errorcode)
-	}
-	finally {
-	     fingerprint 'reports/*'
-	}
+  } catch (Exception e)    {
+    errorcode = e
+    currentBuild.result = "FAIL"
+   notifyBuild(currentBuild.result,errorcode)
+  } finally {
+    fingerprint 'reports/*'
+  }
 }
