@@ -23,13 +23,6 @@ def notifyBuild(String buildStatus, Exception e) {
   }
 
   // Send notifications
-  slackSend(
-      baseUrl: 'https://hooks.slack.com/services/',
-      // tokenCredentialId: SLACK_CREDENTIALS_ID,
-      channel: '#tech-cals-updates',
-      color: colorCode,
-      message: summary
-  )
   // slackSend channel: "#cals-api", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: colorCode, message: summary
   // emailext(
   //    subject: subject,
@@ -48,8 +41,7 @@ node ('preint') {
 			  parameters([
 			  string(defaultValue: '{"user":"RACFID","staffId":"34","roles":["Supervisor"],"county_code":"19","county_name":"Orange","privileges":["CWS Case Management System", "Resource Management", "Resource Mgmt Placement Facility Maint", "Sealed", "Sensitive Persons"]}', description: '', name: 'USERNAME'),
 			  string(defaultValue: '${APP_VERSION}', description: 'Docker hub container version', name: 'APP_VERSION'),
-			  string(defaultValue: 'https://web.preint.cwds.io/cals', description: '', name: 'APP_URL'),
-			  credentials(defaultValue: 'CWDS Slack Integration Token', description: '', name: 'SLACK_CREDENTIALS_ID', credentialType: 'Any', required: true)
+			  string(defaultValue: 'https://web.preint.cwds.io/cals', description: '', name: 'APP_URL')
 			  ]),
 		  pipelineTriggers([])
 	  ])
@@ -71,7 +63,7 @@ node ('preint') {
 	        sh 'cd docker/dev/app/cals-acceptance-tests/'
 		sh 'pwd'
 		sh 'env'
-		//sh 'docker-compose -f docker/dev/app/cals-acceptance-tests/docker-compose.yml up --exit-code-from cals_acceptance_test'
+		sh 'docker-compose -f docker/dev/app/cals-acceptance-tests/docker-compose.yml up --exit-code-from cals_acceptance_test'
       }
 	}
     stage ('Reports') {
