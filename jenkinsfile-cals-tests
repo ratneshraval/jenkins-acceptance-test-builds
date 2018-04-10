@@ -43,12 +43,14 @@ def notifyBuild(String buildStatus, Exception e) {
 }
 
 node ('preint') {
-   properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')),
+   properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
               [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
 			  parameters([
 			  string(defaultValue: '{"user":"RACFID","staffId":"34","roles":["Supervisor"],"county_code":"19","county_name":"Orange","privileges":["CWS Case Management System", "Resource Management", "Resource Mgmt Placement Facility Maint", "Sealed", "Sensitive Persons"]}', description: '', name: 'USERNAME'),
 			  string(defaultValue: '${APP_VERSION}', description: 'Docker hub container version', name: 'APP_VERSION'),
-			  string(defaultValue: 'https://web.preint.cwds.io/cals', description: '', name: 'APP_URL')]),pipelineTriggers([])])
+			  string(defaultValue: 'https://web.preint.cwds.io/cals', description: '', name: 'APP_URL')]),pipelineTriggers([]),
+			  credentials(defaultValue: 'CWDS Slack Integration Token', description: '', name: 'SLACK_CREDENTIALS_ID')
+			  ])
 
    def errorcode = null;
    def buildInfo = '';
@@ -81,11 +83,13 @@ node ('preint') {
             ],
             wait: false
     }
-
+	
+    notifyBuild(currentBuild.result, null)
+  
   } catch (Exception e)    {
     errorcode = e
     currentBuild.result = "FAIL"
-   notifyBuild(currentBuild.result,errorcode)
+    notifyBuild(currentBuild.result,errorcode)
   } finally {
     fingerprint 'reports/*'
   }
