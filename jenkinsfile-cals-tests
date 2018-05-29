@@ -85,7 +85,7 @@ node ('preint') {
     currentBuild.result = "FAIL"
     notifyBuild(currentBuild.result,errorcode)
   } finally {
-    sh 'docker-compose -f docker/dev/app/cals-acceptance-tests/docker-compose.yml down -v
+    sh 'docker-compose -f docker/dev/app/cals-acceptance-tests/docker-compose.yml down -v'
     fingerprint 'reports/*'
   }
 }
