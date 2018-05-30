@@ -58,6 +58,7 @@ node ('preint') {
 
    stage('Run tests selenium'){
       withEnv(["CAPYBARA_APP_HOST=${APP_URL}",
+               "CAPYBARA_DRIVER=selenium",
                "USERNAME=${USERNAME}"
                ]) {
 	        sh 'cd docker/dev/app/cals-acceptance-tests/'
